@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AgitaYDecide. Tú pones las opciones, nosotros el punto final.">
+  <title>AgitaYDecide — Decide sin discutir</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="noise"></div>
+
+  <header class="site-header" id="top">
+    <a class="brand" href="#top" aria-label="AgitaYDecide">
+      <img src="https://dvchinx.github.io/Electiva-Diseno/assets/logo/logotipo.svg" alt="AgitaYDecide">
+    </a>
+
+    <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#beneficios">Beneficios</a>
+      <a href="#funcionalidades">Funcionalidades</a>
+      <a class="nav-cta" href="#demo">Agitar y decidir <span>↗</span></a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero section-dark">
+      <div class="grid-bg"></div>
+      <div class="hero-copy reveal">
+        <p class="eyebrow cyan">TUS DECISIONES, EN UN GESTO</p>
+        <h1>¿Nadie se decide?<br><span>Agítalo.</span></h1>
+        <p class="hero-subtitle">Pon tus opciones. Agita el móvil.<br>Deja que el azar decida.</p>
+        <a class="button button-primary" href="#demo">
+          Agitar y decidir
+          <span class="button-icon">⌁</span>
+        </a>
+        <p class="microcopy">Rápido. Imparcial. Sin discusiones.</p>
+      </div>
+
+      <div class="hero-visual reveal delay-1" aria-hidden="true">
+        <div class="scribble scribble-pink"></div>
+        <div class="scribble scribble-lime"></div>
+        <div class="scribble scribble-cyan"></div>
+
+        <div class="phone-hand">
+          <div class="phone">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <img src="https://dvchinx.github.io/Electiva-Diseno/assets/logo/isotipo.svg" alt="">
+              <strong>AgitaYDecide</strong>
+              <div class="mini-options">
+                <span>🍕 Pizza</span>
+                <span>🍣 Sushi</span>
+                <span>🌮 Tacos</span>
+              </div>
+              <div class="mini-agitate">AGITAR</div>
+            </div>
+          </div>
+          <div class="hand"></div>
+        </div>
+
+        <div class="hero-note">
+          <span>Tú pones las opciones,</span>
+          <strong>nosotros el punto final.</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEMA -->
+    <section class="problem section-dark" id="problema">
+      <div class="section-inner two-column">
+        <div class="reveal">
+          <p class="eyebrow cyan">EL PROBLEMA</p>
+          <h2>¿Y entonces<br>qué hacemos?</h2>
+          <div class="problem-lines">
+            <p>Una opción.</p>
+            <p>Otra opción.</p>
+            <p>«Me da igual».</p>
+            <p>«Elige tú».</p>
+            <p>Y seguimos sin decidir.</p>
+          </div>
+          <div class="highlight-line">
+            <span>→</span>
+            <strong>Las decisiones pequeñas no deberían quitarte tanto tiempo.</strong>
+          </div>
+        </div>
+
+        <div class="chat-stack reveal delay-1">
+          <div class="chat-bubble bubble-purple">¿Pizza o sushi?</div>
+          <div class="chat-bubble bubble-blue">¿Tacos o hamburguesa?</div>
+          <div class="chat-bubble bubble-purple">¿Voy o me quedo?</div>
+          <div class="chat-bubble bubble-pink">Me da igual.</div>
+          <div class="chat-bubble bubble-cyan">Elige tú.</div>
+          <div class="decision-phone">
+            <span>—</span>
+            <small>¿Otra vez?</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOLUCIÓN -->
+    <section class="solution section-light" id="solucion">
+      <div class="section-inner solution-grid">
+        <div class="demo-phone reveal">
+          <div class="phone phone-large">
+            <div class="phone-notch"></div>
+            <div class="phone-screen app-screen">
+              <div class="app-logo-row">
+                <img src="https://dvchinx.github.io/Electiva-Diseno/assets/logo/isotipo.svg" alt="">
+                <span>AgitaYDecide</span>
+              </div>
+              <p class="app-label">Esta noche</p>
+              <h3>Agita para saber</h3>
+              <div class="app-choice"><span>🍕</span> Pizza <b>×</b></div>
+              <div class="app-choice"><span>🍣</span> Sushi <b>×</b></div>
+              <div class="app-choice"><span>🌮</span> Tacos <b>×</b></div>
+              <button class="app-button">AGITAR</button>
+            </div>
+          </div>
+          <span class="burst burst-1">✦</span>
+          <span class="burst burst-2">⌁</span>
+          <span class="burst burst-3">✦</span>
+        </div>
+
+        <div class="reveal delay-1">
+          <p class="eyebrow dark-eyebrow">LA SOLUCIÓN</p>
+          <h2>Tú pones las opciones.<br><span>Nosotros ponemos<br>el punto final.</span></h2>
+          <p class="body-large">AgitaYDecide convierte una discusión eterna en un gesto de un segundo.</p>
+          <div class="verdict-card">
+            <span class="mono">DECIDIÓ EL AZAR</span>
+            <strong>🌮 Tacos</strong>
+            <small>Nadie eligió. Listo.</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BENEFICIOS -->
+    <section class="benefits section-dark" id="beneficios">
+      <div class="section-inner">
+        <div class="benefit-heading reveal">
+          <p class="eyebrow lime">BENEFICIOS</p>
+          <h2>Menos vueltas.<br><span>Más plan.</span></h2>
+        </div>
+
+        <div class="benefit-grid">
+          <article class="benefit-card reveal">
+            <div class="line-icon lime-icon">ϟ</div>
+            <h3>Rápido</h3>
+            <p>Decide en un segundo.</p>
+          </article>
+          <article class="benefit-card reveal delay-1">
+            <div class="line-icon pink-icon">⚖</div>
+            <h3>Imparcial</h3>
+            <p>Nadie eligió. Decidió el azar.</p>
+          </article>
+          <article class="benefit-card reveal delay-2">
+            <div class="line-icon cyan-icon">♧</div>
+            <h3>Sin discusiones</h3>
+            <p>Tú pones las opciones. El azar pone el punto final.</p>
+          </article>
+          <article class="benefit-card reveal delay-3">
+            <div class="line-icon purple-icon">☺</div>
+            <h3>Divertido</h3>
+            <p>Una decisión también puede ser un juego.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FUNCIONALIDADES -->
+    <section class="features section-dark" id="funcionalidades">
+      <div class="grid-bg"></div>
+      <div class="section-inner features-layout">
+        <div class="feature-intro reveal">
+          <p class="eyebrow cyan">FUNCIONALIDADES</p>
+          <h2>Todo listo<br>para <span>decidir.</span></h2>
+          <p>Sin vueltas. Sin menús eternos. Tres toques y listo.</p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card feature-lime reveal">
+            <div class="feature-number">01</div>
+            <div class="feature-icon">＋</div>
+            <h3>Añade opciones</h3>
+            <p>Pon todas las que quieras.</p>
+          </article>
+          <article class="feature-card feature-pink reveal delay-1">
+            <div class="feature-number">02</div>
+            <div class="feature-icon">↝</div>
+            <h3>Agita el móvil</h3>
+            <p>Un movimiento y listo.</p>
+          </article>
+          <article class="feature-card feature-cyan reveal delay-2">
+            <div class="feature-number">03</div>
+            <div class="feature-icon">☆</div>
+            <h3>Obtén el veredicto</h3>
+            <p>El azar escoge una opción.</p>
+          </article>
+          <article class="feature-card feature-purple reveal delay-3">
+            <div class="feature-number">04</div>
+            <div class="feature-icon">↻</div>
+            <h3>Agita otra vez</h3>
+            <p>¿No convenció? Va. Otra vez.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CÓMO FUNCIONA -->
+    <section class="how section-light" id="como-funciona">
+      <div class="section-inner">
+        <div class="how-heading reveal">
+          <p class="eyebrow dark-eyebrow">CÓMO FUNCIONA</p>
+          <h2>Tres pasos.<br>Cero discusiones.</h2>
+        </div>
+
+        <div class="steps">
+          <article class="step reveal">
+            <div class="step-top"><span>01</span><i>→</i></div>
+            <div class="step-visual phone-mini">
+              <div class="mini-phone">
+                <span>🍕 Pizza</span>
+                <span>🍣 Sushi</span>
+                <span>🌮 Tacos</span>
+                <b>AGITAR</b>
+              </div>
+            </div>
+            <h3>Pon las opciones</h3>
+            <p>Pizza, sushi, tacos... Tú decides qué entra.</p>
+          </article>
+
+          <article class="step reveal delay-1">
+            <div class="step-top"><span>02</span><i>→</i></div>
+            <div class="step-visual shake-visual">
+              <div class="shake-phone">📱</div>
+              <div class="motion-lines">⌁ ⌁ ⌁</div>
+            </div>
+            <h3>Agita</h3>
+            <p>Dale una sacudida al móvil.</p>
+          </article>
+
+          <article class="step reveal delay-2">
+            <div class="step-top"><span>03</span><i>✓</i></div>
+            <div class="step-visual verdict-visual">
+              <span class="mono">VEREDICTO</span>
+              <strong>🌮 Tacos</strong>
+              <small>Decidió el azar.</small>
+            </div>
+            <h3>Listo</h3>
+            <p>El azar da el veredicto.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEMO -->
+    <section class="demo section-dark" id="demo">
+      <div class="section-inner demo-section">
+        <div class="demo-heading reveal">
+          <p class="eyebrow pink">PRUÉBALO</p>
+          <h2>Bueno, ¿qué<br>hacemos?</h2>
+          <p>Añade opciones y deja que el azar dé la cara.</p>
+        </div>
+
+        <div class="decision-app reveal delay-1">
+          <div class="decision-header">
+            <span class="mono">DECISIÓN #<span id="decision-count">01</span></span>
+            <span class="status-dot">LISTO</span>
+          </div>
+
+          <div class="option-list" id="option-list"></div>
+
+          <div class="add-option">
+            <input id="option-input" type="text" maxlength="32" placeholder="Pizza, sushi, lo que sea…">
+            <button id="add-option" aria-label="Añadir opción">＋</button>
+          </div>
+
+          <button class="shake-button" id="shake-button">
+            <span>Agitar y decidir</span>
+            <b>⌁</b>
+          </button>
+
+          <div class="verdict" id="verdict" aria-live="polite">
+            <span class="mono">EL VEREDICTO</span>
+            <strong id="verdict-text">Aún no has agitado</strong>
+            <small id="verdict-subtext">El azar está esperando.</small>
+          </div>
+
+          <button class="again-button" id="again-button">¿Otra vez? Va. ↻</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="final-cta section-dark">
+      <div class="section-inner final-inner reveal">
+        <p class="eyebrow lime">SIN MÁS VUELTAS</p>
+        <h2>Tú no elegiste.<br><span>Decidió el azar.</span></h2>
+        <a class="button button-primary" href="#demo">Agitar y decidir <span>⌁</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer section-dark">
+    <div class="section-inner footer-inner">
+      <a class="brand" href="#top">
+        <img src="https://dvchinx.github.io/Electiva-Diseno/assets/logo/logotipo.svg" alt="AgitaYDecide">
+      </a>
+      <p>Decide en un segundo. Sin discutir.</p>
+      <span class="mono">© 2026 AGITAYDECIDE</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
