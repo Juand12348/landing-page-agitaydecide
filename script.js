@@ -3,25 +3,41 @@
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ---------------------------------------------------------
+  // Mobile menu
+  // ---------------------------------------------------------
+
   const menuToggle = document.querySelector(".menu-toggle");
   const nav = document.querySelector(".nav");
 
-  // Mobile menu
-  menuToggle?.addEventListener("click", () => {
-    const isOpen = nav.classList.toggle("open");
+  function setMenu(isOpen) {
+    nav.classList.toggle("open", isOpen);
     document.body.classList.toggle("menu-open", isOpen);
     menuToggle.setAttribute("aria-expanded", String(isOpen));
+    menuToggle.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
+  }
+
+  menuToggle?.addEventListener("click", () => {
+    setMenu(!nav.classList.contains("open"));
   });
 
   nav?.querySelectorAll("a").forEach(link => {
-    link.addEventListener("click", () => {
-      nav.classList.remove("open");
-      document.body.classList.remove("menu-open");
-      menuToggle?.setAttribute("aria-expanded", "false");
-    });
+    link.addEventListener("click", () => setMenu(false));
   });
 
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && nav?.classList.contains("open")) {
+      setMenu(false);
+      menuToggle.focus();
+    }
+  });
+
+  // ---------------------------------------------------------
   // Reveal on scroll
+  // ---------------------------------------------------------
+
   const revealItems = document.querySelectorAll(".reveal");
 
   if ("IntersectionObserver" in window) {
@@ -34,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -45px 0px" }
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
     );
 
     revealItems.forEach(item => observer.observe(item));
@@ -43,130 +59,53 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ---------------------------------------------------------
-  // Real decision demo
+  // Decision demo: the AGITAR button on the solution phone
+  // picks one option at random and shows it on the verdict card.
   // ---------------------------------------------------------
 
-  const optionList = document.querySelector("#option-list");
-  const optionInput = document.querySelector("#option-input");
-  const addOption = document.querySelector("#add-option");
-  const shakeButton = document.querySelector("#shake-button");
-  const againButton = document.querySelector("#again-button");
-  const verdict = document.querySelector("#verdict");
-  const verdictText = document.querySelector("#verdict-text");
-  const verdictSubtext = document.querySelector("#verdict-subtext");
-  const decisionCount = document.querySelector("#decision-count");
-  const statusDot = document.querySelector(".status-dot");
+  const options = ["Pizza", "Sushi", "Tacos"];
 
-  let options = ["Pizza", "Sushi", "Tacos"];
-  let decisions = 0;
+  const agitarButton = document.querySelector("#agitar");
+  const phone = document.querySelector("#solution-phone");
+  const card = document.querySelector("#verdict-card");
+  const verdictName = document.querySelector("#verdict-name");
+  const verdictLive = document.querySelector("#verdict-live");
+  const icons = document.querySelectorAll("#verdict-card [data-icon]");
+
   let isDeciding = false;
+  let current = "Tacos";
 
-  const emojiPool = ["🍕", "🍣", "🌮", "🍔", "🍜", "🥪", "🍗", "🥗"];
-
-  function renderOptions() {
-    optionList.innerHTML = "";
-
-    options.forEach((option, index) => {
-      const item = document.createElement("div");
-      item.className = "option-item";
-
-      const emoji = emojiPool[index % emojiPool.length];
-
-      item.innerHTML = `
-        <span>${emoji} ${escapeHTML(option)}</span>
-        <button type="button" aria-label="Eliminar ${escapeHTML(option)}" data-index="${index}">×</button>
-      `;
-
-      item.querySelector("button").addEventListener("click", () => {
-        if (options.length <= 2) {
-          showTemporaryMessage("Faltan opciones. Pon al menos dos.");
-          return;
-        }
-
-        options.splice(index, 1);
-        renderOptions();
-        resetVerdict();
-      });
-
-      optionList.appendChild(item);
+  function showOption(option) {
+    verdictName.textContent = option;
+    icons.forEach(icon => {
+      icon.classList.toggle("is-hidden", icon.dataset.icon !== option);
     });
   }
 
-  function escapeHTML(value) {
-    const div = document.createElement("div");
-    div.textContent = value;
-    return div.innerHTML;
-  }
-
-  function addNewOption() {
-    if (isDeciding) return;
-
-    const value = optionInput.value.trim();
-
-    if (!value) {
-      optionInput.focus();
-      optionInput.animate(
-        [
-          { transform: "translateX(0)" },
-          { transform: "translateX(-5px)" },
-          { transform: "translateX(5px)" },
-          { transform: "translateX(0)" }
-        ],
-        { duration: 220 }
-      );
-      return;
-    }
-
-    if (options.some(item => item.toLowerCase() === value.toLowerCase())) {
-      showTemporaryMessage("Esa opción ya está ahí.");
-      return;
-    }
-
-    options.push(value);
-    optionInput.value = "";
-    renderOptions();
-    resetVerdict();
-  }
-
-  function showTemporaryMessage(message) {
-    verdict.classList.remove("is-result");
-    verdictText.textContent = message;
-    verdictSubtext.textContent = "Agrega otra opción y seguimos.";
-  }
-
-  function resetVerdict() {
-    verdict.classList.remove("is-result");
-    verdictText.textContent = "Aún no has agitado";
-    verdictSubtext.textContent = "El azar está esperando.";
-    statusDot.textContent = "LISTO";
+  function restartAnimation(element, className) {
+    element.classList.remove(className);
+    void element.getBoundingClientRect();
+    element.classList.add(className);
   }
 
   function decide() {
-    if (isDeciding) return;
-
-    if (options.length < 2) {
-      showTemporaryMessage("Faltan opciones.");
-      return;
-    }
-
+    if (isDeciding || !agitarButton) return;
     isDeciding = true;
-    shakeButton.classList.remove("is-shaking");
-    void shakeButton.offsetWidth;
-    shakeButton.classList.add("is-shaking");
 
-    statusDot.textContent = "AGITANDO";
-    verdict.classList.remove("is-result");
-    verdictText.textContent = "Agitando…";
-    verdictSubtext.textContent = "El azar está pensando.";
+    restartAnimation(phone, "is-shaking");
+    restartAnimation(agitarButton, "is-shaking");
+    verdictLive.textContent = "Agitando…";
 
-    // Shuffle visual text a few times before settling.
+    // Shuffle the card a few times before settling.
     let cycles = 0;
+    const totalCycles = reduceMotion ? 1 : 7;
+
     const interval = setInterval(() => {
-      const preview = options[Math.floor(Math.random() * options.length)];
-      verdictText.textContent = preview;
+      const preview = options[(options.indexOf(current) + 1 + cycles) % options.length];
+      showOption(preview);
       cycles++;
 
-      if (cycles >= 7) {
+      if (cycles >= totalCycles) {
         clearInterval(interval);
         finishDecision();
       }
@@ -174,15 +113,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function finishDecision() {
-    const winner = options[Math.floor(Math.random() * options.length)];
-
-    decisions++;
-    decisionCount.textContent = String(decisions).padStart(2, "0");
-
-    verdict.classList.add("is-result");
-    verdictText.textContent = `🎯 ${winner}`;
-    verdictSubtext.textContent = "Decidió el azar. Listo.";
-    statusDot.textContent = "LISTO";
+    current = options[Math.floor(Math.random() * options.length)];
+    showOption(current);
+    restartAnimation(card, "is-pop");
+    verdictLive.textContent = `Decidió el azar: ${current}.`;
 
     isDeciding = false;
 
@@ -191,24 +125,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  addOption?.addEventListener("click", addNewOption);
+  agitarButton?.addEventListener("click", decide);
+  agitarButton?.addEventListener("click", enableMotion, { once: true });
 
-  optionInput?.addEventListener("keydown", event => {
-    if (event.key === "Enter") {
+  // "Agitar y decidir" links scroll to the solution and shake right away.
+  document.querySelectorAll("[data-shake]").forEach(link => {
+    link.addEventListener("click", event => {
+      const target = document.querySelector("#solucion");
+      if (!target) return;
+
       event.preventDefault();
-      addNewOption();
-    }
+      target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+      history.replaceState(null, "", "#solucion");
+      setTimeout(decide, reduceMotion ? 0 : 650);
+    });
   });
-
-  shakeButton?.addEventListener("click", decide);
-  againButton?.addEventListener("click", decide);
-
-  renderOptions();
 
   // ---------------------------------------------------------
   // Device shake support
   // On supported mobile browsers, physically shaking the phone
-  // can trigger the decision.
+  // triggers the decision.
   // ---------------------------------------------------------
 
   let lastX = null;
@@ -261,19 +197,5 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       window.addEventListener("devicemotion", handleMotion);
     }
-  }
-
-  shakeButton?.addEventListener("click", enableMotion, { once: true });
-
-  // Small parallax effect for decorative hero elements.
-  const heroVisual = document.querySelector(".hero-visual");
-
-  if (heroVisual && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    window.addEventListener("pointermove", event => {
-      const x = (event.clientX / window.innerWidth - 0.5) * 10;
-      const y = (event.clientY / window.innerHeight - 0.5) * 8;
-
-      heroVisual.style.transform = `translate(${x}px, ${y}px)`;
-    });
   }
 });
