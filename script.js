@@ -198,4 +198,114 @@ document.addEventListener("DOMContentLoaded", () => {
       window.addEventListener("devicemotion", handleMotion);
     }
   }
+
+  // ---------------------------------------------------------
+  // Modal de registro (se abre desde el botón del hero)
+  // ---------------------------------------------------------
+
+  const modal = document.getElementById("hubspot-modal");
+  const modalPanel = modal?.querySelector(".lead-modal__panel");
+  const leadForm = document.getElementById("lead-form");
+  const leadMsg = document.getElementById("lead-msg");
+  const leadSubmit = leadForm?.querySelector(".lead-submit");
+  const emailInput = document.getElementById("lead-email");
+  let previousFocus = null;
+
+  function openModal(event) {
+    event.preventDefault();
+    previousFocus = document.activeElement;
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("lead-modal-open");
+    modalPanel.focus();
+  }
+
+  function closeModal() {
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("lead-modal-open");
+    if (previousFocus) previousFocus.focus();
+  }
+
+  if (modal) {
+    document.querySelectorAll("[data-hubspot-open]").forEach(button => {
+      button.addEventListener("click", openModal);
+    });
+
+    modal.querySelectorAll("[data-hubspot-close]").forEach(button => {
+      button.addEventListener("click", closeModal);
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && modal.classList.contains("is-open")) closeModal();
+    });
+  }
+
+  // ---------------------------------------------------------
+  // Envío del formulario a HubSpot (Forms API pública)
+  // portalId y formId son los de tu formulario original.
+  // ---------------------------------------------------------
+
+  const HUBSPOT_PORTAL_ID = "52177911";
+  const HUBSPOT_FORM_ID = "568c5b1c-cb70-471b-af35-c376a8fe497e";
+  const HUBSPOT_URL =
+    `https://api.hsforms.com/submissions/v3/integration/submit/${HUBSPOT_PORTAL_ID}/${HUBSPOT_FORM_ID}`;
+
+  function setMessage(text, isOk = false) {
+    leadMsg.textContent = text;
+    leadMsg.classList.toggle("ok", isOk);
+  }
+
+  // Solo limpia el estado de error cuando el usuario vuelve a escribir.
+  emailInput?.addEventListener("input", () => {
+    emailInput.classList.remove("is-invalid");
+    if (!leadMsg.classList.contains("ok")) setMessage("");
+  });
+
+  leadForm?.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const data = new FormData(leadForm);
+    const email = String(data.get("email") || "").trim();
+
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      emailInput.classList.add("is-invalid");
+      setMessage(email ? "Escribe un correo válido." : "Rellena este campo obligatorio.");
+      emailInput.focus();
+      return;
+    }
+
+    const payload = {
+      fields: [
+        { name: "firstname", value: String(data.get("firstname") || "").trim() },
+        { name: "lastname", value: String(data.get("lastname") || "").trim() },
+        { name: "email", value: email }
+      ],
+      context: {
+        pageUri: window.location.href,
+        pageName: document.title
+      }
+    };
+
+    leadSubmit.disabled = true;
+    setMessage("Enviando…", true);
+
+    try {
+      const response = await fetch(HUBSPOT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) throw new Error(`HubSpot respondió ${response.status}`);
+
+      leadForm.reset();
+      setMessage("¡Listo! Te avisaremos de las novedades.", true);
+    } catch (error) {
+      console.error(error);
+      setMessage("No se pudo enviar. Inténtalo de nuevo.");
+    } finally {
+      leadSubmit.disabled = false;
+    }
+  });
 });
